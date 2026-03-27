@@ -16,7 +16,18 @@ export default function App() {
     // Definir título dinamicamente
     document.title = config.company.name;
 
-    // Aplicar variáveis CSS globais para as cores primárias do tema
+    // Força o favicon via JS para garantir que não use cache antigo
+    const faviconHref = config.company.icon || config.company.logo;
+    if (faviconHref) {
+      document.querySelectorAll("link[rel*='icon']").forEach(el => el.remove());
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.type = 'image/png';
+      link.href = faviconHref + '?v=' + Date.now();
+      document.head.appendChild(link);
+    }
+
+    // CSS vars
     const root = document.documentElement;
     root.style.setProperty('--color-primary', config.colors.primary);
     root.style.setProperty('--color-primary-hover', config.colors.primaryHover);
